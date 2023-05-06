@@ -26,11 +26,11 @@ cartRouter.post("/add", async (req, res) => {
         let {title,image}=req.body
         let product=await CartModel.findOne({title,image})
         if(product){
-            res.status(200).send({"msg":"Product Already in Cart!"})
+            res.status(200).send({"msg":"Product Already in Cart !"})
         }else{
             let cart = new CartModel(req.body)
             await cart.save()
-
+            res.status(200).send({"msg":"Product Added to Cart !"})
         }
     } catch (error) {
         res.status(400).send({ "message": error.message })
