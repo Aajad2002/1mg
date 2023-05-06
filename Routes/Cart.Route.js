@@ -23,8 +23,15 @@ cartRouter.get("/cart", auth, async (req, res) => {
 //post means add to Cart
 cartRouter.post("/add", async (req, res) => {
     try {
-        let cart = new CartModel(req.body)
-        await cart.save()
+        let {title,image}=req.body
+        let product=await CartModel.findOne({title,image})
+        if(product){
+            res.status(200).send({"msg":"Product Already in Cart!"})
+        }else{
+            let cart = new CartModel(req.body)
+            await cart.save()
+
+        }
     } catch (error) {
         res.status(400).send({ "message": error.message })
     }
