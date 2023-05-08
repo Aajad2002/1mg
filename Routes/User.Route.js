@@ -39,9 +39,9 @@ userRouter.post('/login', async (req, res) => {
         let user = await UserModel.findOne({ email })
         if (user) {
             bcrypt.compare(password, user.password, function (err, result) {
-                if (result) {                  
-                    var token = jwt.sign({ userID:user._id }, `${process.env.secretKey}`);
-                    res.status(200).send({"msg":"Login Successfull",name:user.name,token})
+                if (result) {
+                    var token = jwt.sign({ userID: user._id }, `${process.env.secretKey}`);
+                    res.status(200).send({ "msg": "Login Successfull", name: user.name, token })
                 } else {
                     res.status(200).send({ "msg": "Wrong Password !!" })
                 }
@@ -55,6 +55,13 @@ userRouter.post('/login', async (req, res) => {
     }
 
 })
-
+userRouter.get("/", async (req, res) => {
+    try {
+        let users = await UserModel.find();
+        res.send(users)
+    } catch (error) {
+        res.status(400).send({ "err": error.message })
+    }
+})
 
 module.exports = userRouter
