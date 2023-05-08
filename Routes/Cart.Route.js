@@ -11,7 +11,7 @@ const auth = require("../middlewares/Authtentication");
 
 
 //get
-cartRouter.get("/cart", auth, async (req, res) => {
+cartRouter.get("/", auth, async (req, res) => {
     try {
         const data = await CartModel.find({ userID: req.body.userID })
         res.status(200).send(data)
@@ -21,10 +21,10 @@ cartRouter.get("/cart", auth, async (req, res) => {
     }
 })
 //post means add to Cart
-cartRouter.post("/add", async (req, res) => {
+cartRouter.post("/add",auth, async (req, res) => {
     try {
-        let {title,image}=req.body
-        let product=await CartModel.findOne({title,image})
+        let {title,image,userID}=req.body
+        let product=await CartModel.findOne({title,image,userID})
         if(product){
             res.status(200).send({"msg":"Product Already in Cart !"})
         }else{
