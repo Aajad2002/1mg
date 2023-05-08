@@ -63,5 +63,14 @@ userRouter.get("/", async (req, res) => {
         res.status(400).send({ "err": error.message })
     }
 })
+userRouter.delete("/delete/:id", async (req, res) => {
+    try {
+         let id=req.params.id;
+         await UserModel.findByIdAndDelete({_id:id})
+         res.send({"msg":"User Blocked from MEDI Green"})
+    } catch (error) {
+        res.status(400).send({ "err": error.message })
 
+    }
+})
 module.exports = userRouter
