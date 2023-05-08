@@ -55,15 +55,11 @@ vitRouter.get("/", async (req, res) => {
         } else if (query.order === "desc") {
             sortQuery = { price: -1 };
         }
-    }
-    let ratingQuery={}
-    if(query.rating){
-        ratingQuery["rating"]={$gt:query.rating}
-    }
+    }  
 
     try {
         vitamin = await VitModel.find({
-            $and: [category,ratingQuery],
+            $and: [category],
         }).sort(sortQuery)
         res.status(200).send(vitamin)
     } catch (error) {
